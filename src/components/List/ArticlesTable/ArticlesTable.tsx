@@ -26,24 +26,27 @@ import { Pagination } from "../Pagination";
 
 export const ArticlesTable = () => {
   const [page, setPage] = useState(1);
-  const [questionData, setQuestionData] =
+  const [QuestionData, setQuestionData] =
     useRecoilState<QuestionDataType[]>(QuestionListState);
   const itemsPerPage = 5;
-  const totalPages = Math.ceil(questionData.length / itemsPerPage);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/api/articles");
+      setQuestionData(response.data);
+      let mutableData = [...response.data].reverse();
+      response.data = mutableData;
+      setQuestionData(response.data);
+    } catch (error) {
+      console.error(error);
+      alert("게시판 정보 가져오기 실패!");
+    }
+  };
 
   //데이터 가져오기
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/articles");
-        setQuestionData(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-        alert("게시판 정보 가져오기 실패!");
-      }
-    };
     fetchData();
+    console.log(QuestionData);
   }, [setQuestionData]);
 
   const handlePaginationChange = (
@@ -69,7 +72,7 @@ export const ArticlesTable = () => {
 
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentQuestion = questionData.slice(startIndex, endIndex);
+  const currentQuestion = QuestionData.slice(startIndex, endIndex);
 
   //해시태그 클릭하면 그 기능을 확인할 수 있음
   const onClickHashtag = () => {};
@@ -106,7 +109,9 @@ export const ArticlesTable = () => {
                       ))}
                     </HashTagWrapper>
                     <Author>{item.author}</Author>
-                    <Date>{item.createdAt}</Date>
+                    <Date>
+                      {item.createdAt.substring(0, item.createdAt.indexOf("T"))}
+                    </Date>
                   </Addition>
                 </Context>
               </TableCell>
@@ -116,7 +121,7 @@ export const ArticlesTable = () => {
       </Table>
       <Pagination
         page={page}
-        itemList={questionData}
+        itemList={QuestionData}
         itemsPerPage={itemsPerPage}
         handlePaginationChange={handlePaginationChange}
       />

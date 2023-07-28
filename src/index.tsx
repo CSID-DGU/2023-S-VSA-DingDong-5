@@ -8,6 +8,8 @@ import { List } from "./pages/List/List";
 import { Home } from "./pages/Home/Home";
 import { RecoilRoot } from "recoil";
 import { Detail } from "./pages/Detail";
+import { Replies } from "./pages/Replies";
+import { ModifyQuestion } from "./pages/ModifyQuestion";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -24,6 +26,10 @@ root.render(
             <Route index element={<List />} />
             <Route path="/articles/:id" element={<Detail />} />
             <Route path="/articles/write" element={<WriteQuestion />} />
+            <Route path="/articles/modify/:id" element={<ModifyQuestion />} />
+          </Route>
+          <Route path="/replies" element={<Layout />}>
+            <Route index element={<Replies />} />
           </Route>
         </Routes>
       </BrowserRouter>

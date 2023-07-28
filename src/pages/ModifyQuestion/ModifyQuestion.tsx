@@ -12,51 +12,74 @@ import {
   QuestionTypo,
 } from "./styled";
 import axios from "axios";
-import e from "express";
-import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useParams, useNavigate } from "react-router-dom";
 import { QuestionData } from "../../stores/page-store";
 import type { QuestionDataType } from "../../stores/page-store";
+import { useSetRecoilState } from "recoil";
 
-export const WriteQuestion = () => {
+export const ModifyQuestion = () => {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState("");
-  const [newArticle, setNewArticle] = useState({
-    id: 0,
-    title: "",
-    content: "",
-    votes: 0,
-    answers: 0,
-    views: 0,
-    author: "soy",
-    hashtags: [],
-  });
+  const [modifiedArticle, setModifiedArticle] =
+    useState<QuestionDataType | null>(null);
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const setQuestionData = useSetRecoilState(QuestionData); // Recoil setter
 
-  const postQuestion = async () => {
+  const fetchArticleData = async () => {
     try {
-      if (newArticle.title === "" || contents === "") {
+      const response = await axios.get(`/api/articles/${id}`);
+      setModifiedArticle(response.data);
+      setContents(response.data.content);
+    } catch (error) {
+      console.error(error);
+      alert("게시글 정보 가져오기 실패!");
+    }
+  };
+
+  useEffect(() => {
+    fetchArticleData();
+  }, [id]);
+
+  const updateQuestion = async () => {
+    try {
+      if (!modifiedArticle) {
+        return;
+      }
+      if (modifiedArticle.title === "" || contents === "") {
         alert("제목과 내용을 모두 입력해주세요.");
         return;
       }
-      await axios.post("/api/articles/", newArticle).then((res) => {
-        setQuestionData((prevQuestionData: QuestionDataType[]) => [
-          ...prevQuestionData,
-          res.data, // Add the new question to the Recoil state
-        ]);
-        alert("질문 등록 성공!");
-        navigate(`/articles/${res.data._id}`);
+      await axios.put(`/api/articles/${id}`, {
+        ...modifiedArticle,
+        _id: id, // Ensure _id is included in the payload for the backend update
+        content: contents,
       });
+      setQuestionData((prevQuestionData: QuestionDataType[]) => {
+        const updatedData = prevQuestionData.map((item) =>
+          item._id === id
+            ? { ...item, title: modifiedArticle.title, content: contents }
+            : item
+        );
+        return updatedData;
+      });
+      alert("질문 수정 성공!");
+      navigate(`/articles/${id}`);
     } catch (error) {
       console.error(error);
-      alert("질문 등록 실패!");
+      alert("질문 수정 실패!");
     }
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewArticle({ ...newArticle, title: e.target.value });
+    setModifiedArticle(
+      (prevState) =>
+        ({
+          ...prevState,
+          title: e.target.value,
+        } as QuestionDataType | null)
+    );
   };
 
   const modules = useMemo(
@@ -74,17 +97,16 @@ export const WriteQuestion = () => {
           maxStack: 100,
           userOnly: true,
         },
-        // handlers: {
-        //   image: imageHandler,
-        // },
       },
     }),
     []
   );
 
   useEffect(() => {
-    // console.log(contents);
-    setNewArticle({ ...newArticle, content: contents });
+    setModifiedArticle(
+      (prevState) =>
+        ({ ...prevState, content: contents } as QuestionDataType | null)
+    );
   }, [contents]);
 
   return (
@@ -92,8 +114,7 @@ export const WriteQuestion = () => {
       <QuestionTitleSection>
         <QuestionTypo>Q</QuestionTypo>
         <QuestionTitleInput
-          placeholder="질문 내용을 명확하게 요약하여 작성해주세요."
-          value={newArticle.title}
+          value={modifiedArticle?.title || ""}
           onChange={handleTitleChange}
         />
       </QuestionTitleSection>
@@ -109,13 +130,12 @@ export const WriteQuestion = () => {
         theme="snow"
         placeholder="내용을 입력해주세요."
       />
-      {/* </QuestionContentSection> */}
       <QuestionKeywordSection>
         <HashtagIcon />
         <KeywordInput placeholder="질문 내용의 키워드를 선택해주세요." />
       </QuestionKeywordSection>
-      <Button alignself="flex-end" type="button" onClick={postQuestion}>
-        질문등록
+      <Button alignself="flex-end" type="button" onClick={updateQuestion}>
+        수정 완료
       </Button>
     </QuestionForm>
   );

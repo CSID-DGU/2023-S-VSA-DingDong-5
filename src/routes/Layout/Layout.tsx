@@ -1,8 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { HashTagNav } from "../../components/HashtagNav";
-import { Header } from "../../components/Header";
-import { Nav } from "../../components/Nav";
-import { RightWrapper } from "../../components/RightWrapper";
+import { Header, Nav, RightWrapper } from "../../components";
 import { Container, Root, LeftWrapper } from "./styled";
 
 export const Layout = () => {
@@ -15,7 +13,7 @@ export const Layout = () => {
           <HashTagNav />
         </LeftWrapper>
         <Outlet />
-        <RightWrapper/>
+        <RightWrapper />
       </Container>
     </Root>
   );

@@ -19,10 +19,12 @@ export const Table = styled.table``;
 
 export const Tr = styled.tr`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 
 export const HashTag = styled.button`
+  width: 80px;
+  height: 40px;
   margin-left: 10px;
   margin-bottom: 5px;
   padding: 5px 10px;
@@ -30,7 +32,8 @@ export const HashTag = styled.button`
   color: #64748b;
   border: 1px solid #f1f5f9;
   border-radius: 20px;
-  font-size: 15px;
+  font-size: 17px;
+  font-weight: 400;
   &:hover {
     cursor: pointer;
   }
