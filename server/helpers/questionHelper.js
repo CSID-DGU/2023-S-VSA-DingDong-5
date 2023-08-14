@@ -2,6 +2,14 @@ const Question = require('../models/Question');
 const generalHelpers = require('../helpers/generalHelpers');
 const userHelper = require('../helpers/userHelper');
 
+const questionExists = async questionId => {
+  const question = await Question.findById(questionId);
+  if (!question) {
+    throw new Error('Question not found');
+  }
+  return question;
+};
+
 const getQuestionsSorted = async (pageSize, startIndex, sortType) => {
   let questions = [];
   if (sortType === 'latest') {
@@ -52,6 +60,7 @@ const getUpdatedQuestions = async questions => {
 };
 
 module.exports = {
+  questionExists,
   getQuestionsSorted,
   getUpdatedQuestions,
 };

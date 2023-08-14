@@ -91,8 +91,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const answer = await Answer.findById(req.params.id);
-    // TODO : === 이면 answer.userId 와 req.body.userId 가 다르게 나오는 문제 해결
-    if (answer.userId == req.body.userId) {
+    if (answer.userId.toString() === req.body.userId) {
       // 수정 사항에 questionId, title 있으면 무시
       delete req.body.questionId;
       delete req.body.questionTitle;

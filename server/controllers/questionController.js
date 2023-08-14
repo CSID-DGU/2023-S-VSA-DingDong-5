@@ -19,13 +19,11 @@ const getAllQuestions = (page, pageSize, sortType) => async (req, res) => {
 };
 
 const getQuestion = async (req, res) => {
+  const questionId = req.params.id;
   try {
-    const question = await Question.findById(req.params.id);
-    if (!question) {
-      res.status(404).json('Question not found!');
-    }
+    const question = await questionHelper.questionExists(questionId);
     const author = await userHelper.getAuthorName(question.userId);
-    const commentList = await commentController.getCommentListByQuestionId(req.params.id);
+    const commentList = await commentController.getCommentListByQuestionId(questionId);
     const updatedQuestion = await generalHelpers.getUpdatedArticlesWithComments(question, author, commentList);
     res.status(200).json(updatedQuestion);
   } catch (err) {
@@ -34,14 +32,12 @@ const getQuestion = async (req, res) => {
 };
 
 const updateQuestion = async (req, res) => {
+  const questionId = req.params.id;
   try {
-    const question = await Question.findById(req.params.id);
-    if (!question) {
-      res.status(404).json('Question not found!');
-    }
+    questionHelper.questionExists(questionId);
 
     const updatedQuestion = await Question.findByIdAndUpdate(
-      req.params.id,
+      questionId,
       {
         $set: req.body,
         updatedAt: generalHelpers.formatDateKST(new Date()),
@@ -58,7 +54,7 @@ const deleteQuestion = async (req, res) => {
   const questionId = req.params.id;
   try {
     await Question.findByIdAndUpdate(
-      req.params.id,
+      questionId,
       {
         content: '',
         isDeleted: true,
