@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// 제목, 내용, 투표수, 답변수, 조회수, 저장수, 작성자, 해시태그
 const QuestionSchema = new mongoose.Schema(
   {
     title: {

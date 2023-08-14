@@ -1,6 +1,8 @@
 import styled, { keyframes } from 'styled-components';
-import SearchIcon from 'assets/icon/search.svg';
-import Logo from 'assets/icon/logo.svg';
+// import SearchIcon from 'assets/icon/search.svg';
+// import Logo from 'assets/icon/logo.svg';
+import SearchIcon from '../../assets/icon/search.svg';
+import Logo from '../../assets/icon/logo.svg';
 
 export const Root = styled.div`
   display: flex;

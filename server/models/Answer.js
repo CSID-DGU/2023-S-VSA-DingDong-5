@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// id, 내용, 질문 pk, 작성자, 투표수
 const AnswerSchema = new mongoose.Schema(
   {
     id: {

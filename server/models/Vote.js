@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Question Id, Answer Id, User Id,
 const VoteSchema = new mongoose.Schema(
   {
     questionId: {

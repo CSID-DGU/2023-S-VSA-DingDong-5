@@ -200,6 +200,7 @@ router.put('/:id/comment', async (req, res) => {
     });
     const savedComment = await newComment.save();
     question.comments += 1;
+    await question.save();
     res.status(200).json(savedComment);
   } catch (err) {
     res.status(500).json(err);

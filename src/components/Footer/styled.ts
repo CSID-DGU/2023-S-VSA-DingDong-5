@@ -1,9 +1,14 @@
 import styled, { css } from 'styled-components';
-import logo from 'assets/icon/logo.svg';
-import facebookImg from 'assets/icon/facebook.svg';
-import instagramImg from 'assets/icon/instagram.svg';
-import twitterImg from 'assets/icon/twitter.svg';
-import youtubeImg from 'assets/icon/youtube.svg';
+// import logo from 'assets/icon/logo.svg';
+// import facebookImg from 'assets/icon/facebook.svg';
+// import instagramImg from 'assets/icon/instagram.svg';
+// import twitterImg from 'assets/icon/twitter.svg';
+// import youtubeImg from 'assets/icon/youtube.svg';
+import logo from '../../assets/icon/logo.svg';
+import facebookImg from '../../assets/icon/facebook.svg';
+import instagramImg from '../../assets/icon/instagram.svg';
+import twitterImg from '../../assets/icon/twitter.svg';
+import youtubeImg from '../../assets/icon/youtube.svg';
 
 interface ICustomMargin {
   top?: string;
