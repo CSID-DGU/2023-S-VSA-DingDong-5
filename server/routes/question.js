@@ -23,23 +23,20 @@ router.post('/', async (req, res) => {
 
 // GET ALL -LATEST
 router.get('/', async (req, res) => {
-  const sortType = 'latest';
   const page = parseInt(req.query.page) || 1;
-  await questionController.getAllQuestions(page, pageSize, sortType)(req, res);
+  await questionController.getAllQuestions(page, pageSize, 'latest')(req, res);
 });
 
 // GET ALL -POPULAR
 router.get('/popular', async (req, res) => {
-  const sortType = 'popular';
   const page = parseInt(req.query.page) || 1;
-  await questionController.getAllQuestions(page, pageSize, sortType)(req, res);
+  await questionController.getAllQuestions(page, pageSize, 'popular')(req, res);
 });
 
 // GET ALL -INTEREST
 router.get('/interest', async (req, res) => {
-  const sortType = 'interest';
   const page = parseInt(req.query.page) || 1;
-  await questionController.getAllQuestions(page, pageSize, sortType)(req, res);
+  await questionController.getAllQuestions(page, pageSize, 'interest')(req, res);
 });
 
 // GET

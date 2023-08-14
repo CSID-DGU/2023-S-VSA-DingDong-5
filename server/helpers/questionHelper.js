@@ -2,7 +2,7 @@ const Question = require('../models/Question');
 const generalHelpers = require('../helpers/generalHelpers');
 const userHelper = require('../helpers/userHelper');
 
-const getQUestionsSorted = async (pageSize, startIndex, sortType) => {
+const getQuestionsSorted = async (pageSize, startIndex, sortType) => {
   let questions = [];
   if (sortType === 'latest') {
     questions = getQuestionsSortedByLatest(startIndex, pageSize);
@@ -52,6 +52,6 @@ const getUpdatedQuestions = async questions => {
 };
 
 module.exports = {
-  getQUestionsSorted,
+  getQuestionsSorted,
   getUpdatedQuestions,
 };

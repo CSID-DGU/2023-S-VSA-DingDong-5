@@ -7,7 +7,7 @@ const getAllQuestions = (page, pageSize, sortType) => async (req, res) => {
   const startIndex = (page - 1) * pageSize;
   try {
     const totalQuestions = await Question.countDocuments({ isDeleted: false });
-    const questions = await questionHelper.getQUestionsSorted(pageSize, startIndex, sortType);
+    const questions = await questionHelper.getQuestionsSorted(pageSize, startIndex, sortType);
     const updatedQuestions = await questionHelper.getUpdatedQuestions(questions);
     res.status(200).json({ updatedQuestions, totalQuestions });
   } catch (err) {
