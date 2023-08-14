@@ -3,6 +3,7 @@ const Question = require('../models/Question');
 const User = require('../models/User');
 const Vote = require('../models/Vote');
 const Comment = require('../models/Comment');
+const questionController = require('../controllers/questionController');
 
 // TODO : 로그인한 유저만 질문을 작성할 수 있도록
 //        create, update, delete 미들웨어 추가
@@ -20,40 +21,7 @@ router.post('/', async (req, res) => {
 });
 
 // GET ALL -LATEST
-router.get('/', async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const pageSize = 5;
-  const startIndex = (page - 1) * pageSize;
-  try {
-    const totalQuestions = await Question.countDocuments({ isDeleted: false });
-    const questions = await Question.find({ isDeleted: false })
-      .sort({ createdAt: -1 }) // 최신순으로 정렬 (내림차순 : -1)
-      .skip(startIndex)
-      .limit(pageSize)
-      .exec();
-    const updatedQuestions = await Promise.all(
-      questions.map(async question => {
-        const user = await User.findById(question.userId);
-        const author = user ? user.username : 'unknown';
-        const updatedQuestion = {
-          ...question._doc,
-          author,
-          createdAt: new Date(question.createdAt).toLocaleString('ko-KR', {
-            timeZone: 'Asia/Seoul',
-          }),
-          updatedAt: new Date(question.updatedAt).toLocaleString('ko-KR', {
-            timeZone: 'Asia/Seoul',
-          }),
-        };
-        return updatedQuestion;
-      }),
-    );
-
-    res.status(200).json({ updatedQuestions, totalQuestions });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.get('/', questionController.getAllLatestQuestions);
 
 // GET ALL -POPULAR
 router.get('/popular', async (req, res) => {
