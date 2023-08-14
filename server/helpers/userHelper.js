@@ -1,8 +1,13 @@
 const User = require('../models/User');
 
+// Database Handler
 const getAuthorName = async userId => {
-  const user = await User.findById(userId);
-  return user ? user.username : 'unknown';
+  try {
+    const user = await User.findById(userId);
+    return user ? user.username : 'unknown';
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports = {

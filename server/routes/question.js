@@ -40,87 +40,13 @@ router.get('/interest', async (req, res) => {
 });
 
 // GET
-router.get('/:id', async (req, res) => {
-  try {
-    const question = await Question.findById(req.params.id);
-    const user = await User.findById(question.userId);
-    const commentList = await Comment.find({ questionId: req.params.id }).exec();
-    const author = user ? user.username : 'unknown';
-
-    if (!question) {
-      res.status(404).json('Question not found!');
-    }
-    const updatedQuestion = {
-      ...question._doc,
-      author,
-      commentList,
-      createdAt: new Date(question.createdAt).toLocaleString('ko-KR', {
-        timeZone: 'Asia/Seoul',
-      }),
-      updatedAt: new Date(question.updatedAt).toLocaleString('ko-KR', {
-        timeZone: 'Asia/Seoul',
-      }),
-    };
-    res.status(200).json(updatedQuestion);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.get('/:id', questionController.getQuestion);
 
 // UPDATE
-router.put('/:id', async (req, res) => {
-  try {
-    const question = await Question.findById(req.params.id);
-
-    if (!question) {
-      res.status(404).json('Question not found!');
-    }
-
-    // if (question.author === req.body.author) {
-    try {
-      const updatedQuestion = await Question.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-          updatedAt: new Date().toLocaleString('ko-KR', {
-            timeZone: 'Asia/Seoul',
-          }),
-        },
-        { new: true },
-      );
-      res.status(200).json(updatedQuestion);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-    // } else {
-    //   res.status(401).json('You can update only your Question!');
-    // }
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.put('/:id', questionController.updateQuestion);
 
 // DELETE
-router.put('/:id/delete', async (req, res) => {
-  try {
-    await Question.findByIdAndUpdate(
-      req.params.id,
-      {
-        content: '',
-        isDeleted: true,
-        updatedAt: new Date().toLocaleString('ko-KR', {
-          timeZone: 'Asia/Seoul',
-        }),
-      },
-      { new: true },
-    );
-    await Vote.deleteMany({ questionId: req.params.id });
-
-    res.status(200).json('Question has been deleted');
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.put('/:id/delete', questionController.deleteQuestion);
 
 // UPDATE ETC
 
