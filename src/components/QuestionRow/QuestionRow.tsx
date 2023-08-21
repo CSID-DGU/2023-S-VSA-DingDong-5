@@ -26,13 +26,13 @@ type QuestionRowProps = {
 };
 
 export const QuestionRow = ({ item }: QuestionRowProps) => {
-  const isValidQuestion = async (e: React.MouseEvent<HTMLAnchorElement>, questionId: any) => {
-    e.preventDefault();
-    const response = await axios.get(`/api/articles/valid/${questionId}`);
-    if (!response.data.isValid) {
-      alert('삭제된 질문입니다');
-    }
-  };
+  // const isValidQuestion = async (e: React.MouseEvent<HTMLAnchorElement>, questionId: any) => {
+  //   e.preventDefault();
+  //   const validResponse = await axios.get(`/api/articles/valid/${questionId}`);
+  //   if (!validResponse.data.isValid) {
+  //     alert('삭제된 질문입니다');
+  //   }
+  // };
 
   return (
     <TableRow key={item._id}>
@@ -60,9 +60,11 @@ export const QuestionRow = ({ item }: QuestionRowProps) => {
         </Info>
         <Context>
           <Title>
-            <Link to={`/articles/${item._id}`} onClick={event => isValidQuestion(event, item._id)}>
-              {item.title}
-            </Link>
+            {item.isDeleted ? (
+              <Link to={`/articles/${item._id}/bookmark`}>{item.title}</Link>
+            ) : (
+              <Link to={`/articles/${item._id}`}>{item.title}</Link>
+            )}
           </Title>
           <Addition>
             <HashTagWrapper>

@@ -72,6 +72,10 @@ export const AnswerForm: React.FC<Props> = ({ _id }) => {
       const response = await axios.get(`/api/articles/${_id}`);
       const foundQuestion = response.data;
       if (foundQuestion) {
+        if (foundQuestion.isDeleted) {
+          const bookmarkedResponse = await axios.get(`/api/articles/${_id}/bookmark`);
+          setCurrentQuestion(bookmarkedResponse.data);
+        }
         setCurrentQuestion(foundQuestion);
       }
     } catch (error) {

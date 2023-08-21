@@ -51,7 +51,6 @@ export const QuestionForm: React.FC<Props> = ({ _id }) => {
     try {
       const response = await axios.get(`/api/articles/${_id}`);
       const foundQuestion = response.data;
-
       if (isLogin) {
         const voteResponse = await axios.get(`/api/articles/${_id}/isVoted`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -63,7 +62,16 @@ export const QuestionForm: React.FC<Props> = ({ _id }) => {
         setIsSaved(saveResponse.data);
       }
       if (foundQuestion) {
-        setCurrentQuestion(foundQuestion);
+        // foundQuestion의 isDeleted 가 true 이면 copyQuestion에서 데이터 가져오기
+        if (foundQuestion.isDeleted) {
+          const copyResponse = await axios.get(`/api/articles/${_id}/bookmark`);
+          const copyQuestion = copyResponse.data;
+          console.log('copy : ' + copyQuestion);
+          setCurrentQuestion(copyQuestion);
+        } else {
+          console.log('found : ' + foundQuestion);
+          setCurrentQuestion(foundQuestion);
+        }
       }
     } catch (error) {
       console.error('질문 불러오기 실패 : ' + error);
@@ -73,8 +81,12 @@ export const QuestionForm: React.FC<Props> = ({ _id }) => {
 
   const updateViews = async () => {
     try {
-      await axios.put(`/api/articles/${_id}/view`);
-      fetchQuestionData();
+      if (currentQuestion) {
+        await axios.put(`/api/articles/${_id}/view`);
+        fetchQuestionData();
+      } else {
+        return;
+      }
     } catch (error) {
       console.error('Error updating views:', error);
     }
