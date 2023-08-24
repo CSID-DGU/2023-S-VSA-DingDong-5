@@ -49,7 +49,7 @@ https://github.com/CSID-DGU/2023-S-VSA-DingDong-5/assets/96400257/8d8ee6c3-4df4-
 ```
 cd server
 yarn install
-node server.js
+yarn start
 ```
 - frontend
 ```
