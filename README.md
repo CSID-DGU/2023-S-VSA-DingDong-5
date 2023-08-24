@@ -12,6 +12,8 @@
 딩동 커뮤니티✈️ <p>
 [딩동커뮤니티에 접속하고 싶다면? 클릭해주세요! 👀](https://dingdong-front.vercel.app/)
 <br/>
+- test ID : user1@email, user2@email, ~ user6@email
+- test PW : user1, user2, ~ user6
 
 > 프로젝트 목표
 
