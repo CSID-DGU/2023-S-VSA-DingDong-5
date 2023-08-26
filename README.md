@@ -12,9 +12,6 @@
 딩동 커뮤니티✈️ <p>
 [딩동커뮤니티에 접속하고 싶다면? 클릭해주세요! 👀](https://dingdong-front.vercel.app/)
 <br/>
-- test ID : user1@email, user2@email, ~ user6@email
-- test PW : user1, user2, ~ user6
-
 > 프로젝트 목표
 
 하나의 게시글에서 독립적인 댓글이 허용된 커뮤니티로 댓글이 하나의 '객체'로 작용하도록 구현하는 것을 목표로 합니다.
