@@ -99,7 +99,7 @@ yarn start
   routes/Layout ⇒ router 기본 틀 컴포넌트 <br/>
   stores ⇒ 리코일 관련 모듈 <br/>
   utils ⇒ util 파일 관리 <br/>
-  types ⇒ 리코일 타입 지정 <br/>
+  types ⇒ 타입 지정 <br/>
 
 <br/>
 
