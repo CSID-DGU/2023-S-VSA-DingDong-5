@@ -10,7 +10,9 @@
 > 프로젝트명
 
 딩동 커뮤니티✈️ <p>
-[딩동커뮤니티에 접속하고 싶다면? 클릭해주세요! 👀](https://dingdong-front.vercel.app/)
+[딩동커뮤니티에 접속하고 싶다면? 클릭해주세요! 👀](https://dingdong-front.vercel.app/)   
+<div>테스트 유저 ID: user1@email ~ user6@email</div>   
+<div>테스트 유저 PW: user1 ~ user6   </div>
 <br/>
 > 프로젝트 목표
 
