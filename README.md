@@ -43,7 +43,7 @@ https://github.com/CSID-DGU/2023-S-VSA-DingDong-5/assets/96400257/8d8ee6c3-4df4-
 
 ## ⚙️ 시스템 아키텍처
 > 다음은 프로젝트 구조도입니다.
-<p align="center"><img src="https://github.com/CSID-DGU/2023-S-VSA-DingDong-5/assets/96400257/3d252e39-f579-42bc-9f2a-0e72bfe74c27" width="70%" height="50%"></p>
+<p align="center"><img src="https://github.com/CSID-DGU/2023-S-VSA-DingDong-5/assets/87259219/05093568-9cfe-49ca-8954-53550fc90bf8" width="70%" height="50%"></p>
 
 <br/>
 
