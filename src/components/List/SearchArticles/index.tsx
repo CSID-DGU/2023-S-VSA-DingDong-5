@@ -1,0 +1,1 @@
+export { SearchArticles } from "./SearchArticles";

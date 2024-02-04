@@ -27,7 +27,7 @@ router.put('/:id', async (req, res) => {
         {
           $set: req.body,
         },
-        { new: true }
+        { new: true },
       );
       res.status(200).json(updatedUser);
     } catch (err) {
@@ -55,6 +55,23 @@ router.delete('/:id', async (req, res) => {
     }
   } else {
     res.status(401).json('You can delete only your account!');
+  }
+});
+
+// Bookmark Question 조회
+router.get('/mypage/bookmark/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await User.findById(userId).populate('bookmarkedQuestions');
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const bookmarkedQuestions = user.bookmarkedQuestions;
+    res.status(200).json(bookmarkedQuestions);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 

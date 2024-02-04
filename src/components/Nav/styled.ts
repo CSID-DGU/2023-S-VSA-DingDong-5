@@ -1,10 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.nav`
   display: flex;
   flex-direction: column;
   width: 185px;
   margin-right: 40px;
+  margin-left: 75px;
 `;
 
 export const NavItem = styled.div`

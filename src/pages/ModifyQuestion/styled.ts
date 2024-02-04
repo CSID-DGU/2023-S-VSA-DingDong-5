@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import HashTagIcon from "../../assets/icon/hashtag.svg";
+import styled from 'styled-components';
+import HashTagIcon from '../../assets/icon/hashtag.svg';
 
 export const QuestionForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 683px;
   height: 800px;
-  margin-right: 240px;
+  /* margin-right: 240px; */
   /* margin-right: 180px; */
 `;
 
@@ -25,7 +25,7 @@ export const QuestionTypo = styled.div`
   height: 50px;
   background: #7c3aed;
   border-radius: 50%;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   color: #fff;
   font-size: 26px;
   font-weight: 600;

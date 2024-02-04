@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
-// 이메일, 비밀번호, 이름, 전화번호
 const UserSchema = new mongoose.Schema(
   {
     email: {
@@ -20,9 +20,20 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    bookmarkedQuestions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Question',
+      },
+    ],
   },
   // 생성일(createdAt)과 수정일(updatedAt)을 자동으로 관리
-  { timestamps: true }
+  { timestamps: true },
 );
+
+// 비밀번호 비교
+UserSchema.methods.comparePassword = async function (plainPassword) {
+  return await bcrypt.compare(plainPassword, this.password);
+};
 
 module.exports = mongoose.model('User', UserSchema);

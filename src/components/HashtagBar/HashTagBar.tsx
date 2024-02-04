@@ -1,41 +1,37 @@
-import { Number } from "mongoose";
-import dummy from "../../db/articles.json";
-import {
-  Table,
-  Tr,
-  HashTag
-} from "./styled"
+import React, { useState, useEffect } from "react";
+import Articles from '../../db/articles.json';
+import { Tr, HashTag, Div } from './styled';
 
 export const HashTagBar = () => {
+  // 많이 언급된 hashtag 순서대로 정렬한 api 호출
 
-  const HashtagArr = dummy.articles.map((item) => item.hashtag);
+  const HashtagArr = Articles.map(item => item.hashtags);
   const oneHashtag = HashtagArr.flat();
-  const onlyHashtag = Array.from(new Set(oneHashtag));
-  console.log(onlyHashtag);
+  const onlyHashtag = Array.from(new Set(oneHashtag)).slice(0, 9);
+  // const [visibleItems, setVisibleItems] = useCircularArray(onlyHashtag);
+  const [visibleItems, setVisibleItems] = useState(onlyHashtag);
   
-  return(
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // setVisibleItems((prevItems) => [...prevItems.slice(1), prevItems[0]]);
+      setVisibleItems((prevItems) => {
+        const lastItem = prevItems[prevItems.length - 1];
+        return [lastItem, ...prevItems.slice(0, prevItems.length - 1)];
+      });      
+    }, 1500);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  return (
     <>
-    <Table>
-      <tbody>
-            {onlyHashtag.map((item, index) => (
-              index % 5 === 0 ? (
-                <Tr key={index}>
-                  <td>
-                  <HashTag key={item}>{item}</HashTag>
-                  {index + 1 < onlyHashtag.length ? <HashTag>{onlyHashtag[index + 1]}</HashTag> 
-                  : null}
-                  {index + 2 < onlyHashtag.length ? <HashTag>{onlyHashtag[index + 2]}</HashTag> 
-                  : null}
-                  {index + 3 < onlyHashtag.length ? <HashTag>{onlyHashtag[index + 3]}</HashTag> 
-                  : null}
-                  {index + 4 < onlyHashtag.length ? <HashTag>{onlyHashtag[index + 4]}</HashTag> 
-                  : null}
-                  </td>
-                </Tr>
-              ) : null
-            ))}
-      </tbody>
-    </Table>
+      <Div>
+        {visibleItems.map((item, index) =>
+          <Tr key={index}>
+            <HashTag key={item}>{item}</HashTag>
+          </Tr>
+        )}
+     </Div>
     </>
-  )
-}
+  );
+};

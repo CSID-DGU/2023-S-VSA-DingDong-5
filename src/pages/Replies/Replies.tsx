@@ -1,8 +1,10 @@
-import axios from "axios";
+import { RepliesList } from '../../components';
+import { RepliesContainer } from './styled';
 
-export const Replies = () =>{
-  return(
-    <>
-    </>
-  )
+export const Replies = () => {
+  return (
+    <RepliesContainer>
+      <RepliesList />
+    </RepliesContainer>
+  );
 };

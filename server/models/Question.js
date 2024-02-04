@@ -1,20 +1,16 @@
 const mongoose = require('mongoose');
-// const AutoIncrement = require('mongoose-sequence')(mongoose);
-// const autoIdSetter = require('../utils/auto-id-setter');
 
-// id, 제목, 내용, 투표수, 답변수, 조회수, 작성자, 해시태그
 const QuestionSchema = new mongoose.Schema(
   {
-    id: {
-      type: Number,
-    },
     title: {
       type: String,
       required: true,
+      index: true,
     },
     content: {
       type: String,
       required: true,
+      index: true,
     },
     votes: {
       type: Number,
@@ -28,28 +24,41 @@ const QuestionSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    // Login 구현 후 수정 예정 : 작성자는 User의 id를 참조
-    // userId: {
-    //   type: Number,
-    //   required: true,
-    // },
-    author: {
-      type: String,
-      required: true,
+    saves: {
+      type: Number,
+      default: 0,
+    },
+    comments: {
+      type: Number,
+      default: 0,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
     hashtags: {
-      type: Array,
+      type: [String],
       required: false,
+      index: true,
     },
     isDeleted: {
       type: Boolean,
       default: false,
     },
+    hardDeleteAt: {
+      type: Date,
+    },
   },
-  // 생성일(createdAt)과 수정일(updatedAt)을 자동으로 관리
-  { timestamps: true }
+  { timestamps: true },
 );
 
-// autoIdSetter(QuestionSchema, mongoose, 'Question', 'id');
+// 현재 UTC 시간을 기준으로 한국 시간으로 변환
+QuestionSchema.pre('save', function (next) {
+  const seoulTime = new Date(this.createdAt).toLocaleString('ko-KR', {
+    timeZone: 'Asia/Seoul',
+  });
+  this.createdAt = new Date(seoulTime);
+  next();
+});
 
 module.exports = mongoose.model('Question', QuestionSchema);

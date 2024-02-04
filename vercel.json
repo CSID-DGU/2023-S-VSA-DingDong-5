@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://dingdong-back-coral.vercel.app/:path*"
+    },
+    {
+      "source": "/api/:path*/",
+      "destination": "https://dingdong-back-coral.vercel.app/:path*/"
+    }
+  ]
+}
